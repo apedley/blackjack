@@ -5,6 +5,14 @@ class window.Hand extends Backbone.Collection
 
   hit: ->
     @add(@deck.pop())
+    if (@minScore() > 21)
+      @trigger 'bust', @
+      # return null
+    @last()
+
+  stand: ->
+    @trigger 'stand', @
+
 
   hasAce: -> @reduce (memo, card) ->
     memo or card.get('value') is 1
@@ -13,6 +21,9 @@ class window.Hand extends Backbone.Collection
   minScore: -> @reduce (score, card) ->
     score + if card.get 'revealed' then card.get 'value' else 0
   , 0
+
+  maxScore: -> 
+    Math.max(@scores()[0], @scores()[1])
 
   scores: ->
     # The scores are an array of potential scores.
