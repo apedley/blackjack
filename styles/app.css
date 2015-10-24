@@ -1,16 +1,22 @@
+body {
+  background: green;
+  color: white;
+  font-family: sans-serif;
+}
 .card {
   float: left;
-  border: solid 1px black;
-  width: 100px;
-  border-radius: 5px;
-  height: 140px;
   margin-right: 20px;
 }
 
 .covered {
   background-color: black;
+  content: "<img src='img/card-back.png'>";
 }
 
 .hand {
   overflow: auto;
+}
+
+.messages { 
+  font-size: 2em;
 }
