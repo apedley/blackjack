@@ -3,15 +3,19 @@
 class window.App extends Backbone.Model
   initialize: ->
     @set 'deck', deck = new Deck()
+    @set 'bet', bet = new Bet({chips: 1000})
     @redeal()
     @set 'message', 'Good luck!'
 
-
   bust: ->
     @set 'message', 'Bust!'
+    bet = @get 'bet'
+    bet.lose()
     @trigger 'gameOver', @
 
   playDealer: ->
+    bet = @get 'bet'
+    bet.set 'betOpen', false
     dealerHand = @get 'dealerHand'
     playerHand = @get 'playerHand'
     dealerHand.first().set('revealed', true)
@@ -21,6 +25,8 @@ class window.App extends Backbone.Model
 
   redeal: ->
     @set 'message', 'Good luck!'
+    bet = @get 'bet'
+    bet.set 'betOpen', true
     deck = @get 'deck'
     if deck.length < 10
       deck.shuffle()
@@ -29,9 +35,14 @@ class window.App extends Backbone.Model
     playerHand = @get 'playerHand'
     if playerHand.maxScore() == 21
       @gameOver()
+    playerHand.on 'makePlay', @closeBet, @
     playerHand.on 'bust', @bust, @
     playerHand.on 'stand', @playDealer, @
     @trigger 'redeal', @
+
+  closeBet: ->
+    bet = @get 'bet'
+    bet.set 'betOpen', false
 
   blackjack: ->
     alert('blackjack!')
@@ -41,6 +52,10 @@ class window.App extends Backbone.Model
     dealerHand = @get 'dealerHand'
     if playerHand.maxScore() > dealerHand.maxScore() or dealerHand.minScore() > 21
       @set 'message', 'You win!'
+      bet = @get 'bet'
+      bet.win()
     else
       @set 'message', 'Dealer wins!'
+      bet = @get 'bet'
+      bet.lose()
     @trigger 'gameOver', @

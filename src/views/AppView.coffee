@@ -1,8 +1,9 @@
 class window.AppView extends Backbone.View
   template: _.template '
+    <div class="messages"></div>
+    <div class="bet-container"></div>
     <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
     <button class="redeal-button">Redeal</button>
-    <div class="messages"></div>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
   '
@@ -23,6 +24,7 @@ class window.AppView extends Backbone.View
     @$el.html @template()
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+    @$('.bet-container').html new BetView(model: @model.get 'bet').el
     @$('.messages').text @model.get 'message'
 
   disableButtons: ->
