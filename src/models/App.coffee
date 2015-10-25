@@ -26,6 +26,10 @@ class window.App extends Backbone.Model
   redeal: ->
     @set 'message', 'Good luck!'
     bet = @get 'bet'
+    if bet.get('chips') is 0 
+
+      alert('You lost! Have some more chips..')
+      bet.set 'chips', 1000
     bet.set 'betOpen', true
     deck = @get 'deck'
     if deck.length < 10

@@ -8,11 +8,13 @@ class window.BetView extends Backbone.View
     <button class="bet-ten-button">Bet Ten</button>
     <button class="bet-fifty-button">Bet Fifty</button>
     <button class="bet-hundred-button">Bet Hundred</button>
+    <button class="bet-all">Bet All</button>
   '
   events:
     'click .bet-ten-button': -> @model.bet(10)
     'click .bet-fifty-button': -> @model.bet(50)
     'click .bet-hundred-button': -> @model.bet(100)
+    'click .bet-all': -> @model.betAll()
   initialize: ->
     @render()
     @model.on 'change', => @render() 
